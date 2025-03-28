@@ -1,0 +1,13 @@
+server:
+  port: 8761 # discovery-service 의 일반적인 port
+
+spring:
+  application:
+    name: discovery-service
+
+eureka:
+  client:
+    register-with-eureka: false # 디커버리 서비스 자체가 서비스 이기 때문에 굳이 클라이언트 설정을 하지 않는다.
+    fetch-registry: false
+  server:
+    wait-time-in-ms-when-sync-empty: 0 #
