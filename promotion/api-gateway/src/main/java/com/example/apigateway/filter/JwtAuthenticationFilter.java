@@ -61,7 +61,7 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
     private Mono<Long> validateToken(String token) {
         return webClient.post()
-                .uri("/auth/validate")
+                .uri("/api/v1/users/validate-token")
                 .bodyValue("{\"token\":\"" + token + "\"}")
                 .header("Content-Type", "application/json")
                 .retrieve()
