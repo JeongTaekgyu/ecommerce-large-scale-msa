@@ -10,6 +10,15 @@ spring:
       port: 6379
   cloud:
     gateway:
+      default-filters:
+        # API Gateway에서 RedisRateLimiter를 활용하여 요청 속도를 제한하고
+        # 사용자별(X-User-ID) 또는 IP 기준으로 요청을 카운트하여 트래픽을 조절함.
+        - name: RequestRateLimiter # RedisRateLimiter를 찾아서 default-filters에 등록함
+          args:
+            redis-rate-limiter.replenishRate: 1 # 초당 생성되는 토큰 개수
+            redis-rate-limiter.burstCapacity: 20 # 최대 허용 가능한 토큰 개수
+            redis-rate-limiter.requestedTokens: 1 # 한 요청당 차감되는 토큰 개수
+            key-resolver: "#{@userKeyResolver}" # userKeyResolver에 매핑이 됨
       routes:
         - id: public-user-service
           uri: lb://USER-SERVICE # USER-SERVICE를 이름으로 하는 서비스를 가지고 온다. 실제 유레카에 등록된 서비스 이름
