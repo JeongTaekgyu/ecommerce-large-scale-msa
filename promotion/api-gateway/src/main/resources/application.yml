@@ -24,9 +24,35 @@ spring:
           uri: lb://USER-SERVICE # USER-SERVICE를 이름으로 하는 서비스를 가지고 온다. 실제 유레카에 등록된 서비스 이름
           predicates:
             - Path=/api/v1/users/signup, /api/v1/users/login, /api/v1/users/token/validate, /api/v1/users/refresh-token
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userServiceBreaker
+                fallbackUri: forward:/fallback/users
         - id: user-service # internal user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/api/v1/users/**
           filters:
+            - name: CircuitBreaker
+              args:
+                name: userServiceBreaker
+                fallbackUri: forward:/fallback/users
             - name: JwtAuthenticationFilter
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userServiceBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5 # 서킷 브레이커가 고려할 최근 호출 수
+        minimumNumberOfCalls: 10 # 최소 호출 횟수, 이 수를 넘어야 서킷 브레이커의 상태가 변경됨
+        permittedNumberOfCallsInHalfOpenState: 10 # 반-열린 상태에서 허용되는 호출 수
+        automaticTransitionFromOpenToHalfOpenEnabled: true # 서킷 브레이커가 자동으로 반-열린 상태로 전환되는지 여부
+        waitDurationInOpenState: 5000 # 서킷 브레이커가 열린 상태로 유지되는 시간
+        failureRateThreshold: 50 # 실패율 기준, 이 비율을 초과하는 실패가 발생하면 서킷 브레이커가 열립니다
+        eventConsumerBufferSize: 10
+        record-exceptions: # 에러가 어던 exception이 발생했을 때 에러로 기록할지에 대한 부분
+          - java.util.concurrent.TimeoutException
+          - org.springframework.cloud.gateway.support.NotFoundException
+          - io.github.resilience4j.circuitbreaker.CallNotPermittedException
