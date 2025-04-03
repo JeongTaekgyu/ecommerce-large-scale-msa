@@ -15,5 +15,5 @@ public interface CouponPolicyRepository extends JpaRepository<CouponPolicy, Long
     // 해당 데이터에 접근하는 트랜잭션에 대해서 쓰기 잠금을 한다. 다른 트랜잭션이 수정,삭제 하려고 하면 대기 상태가 된다.
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT cp FROM CouponPolicy cp WHERE cp.id = :id")
-    Optional<CouponPolicy> findByWithLock(Long id);
+    Optional<CouponPolicy> findByIdWithLock(Long id);
 }
