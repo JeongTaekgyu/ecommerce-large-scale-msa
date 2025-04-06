@@ -23,6 +23,25 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final CouponPolicyRepository couponPolicyRepository;
 
+    /**
+     * 1. Race Condition 발생 가능성
+     * findByIdWithLock으로 쿠폰 정책에 대해 락을 걸지만, countByCouponPolicyId와 실제 쿠폰 저장 사이에 갭이 존재
+     * 현재는 여러 트랜잭션이 동시에 카운트를 조회하고 조건을 통과한 후 쿠폰을 저장할 수 있음
+     * 결과적으로 totalQuantity보다 더 많은 쿠폰이 발급될 수 있음
+     *
+     * 2. 성능 이슈
+     * 매 요청마다 발급된 쿠폰 수를 카운트하는 쿼리 실행
+     * 쿠폰 수가 많아질수록 카운트 쿼리의 성능이 저하될 수 있음
+     * PESSIMISTIC_LOCK으로 인한 병목 현상 발생 가능
+     *
+     * 3. Dead Lock 가능성
+     * 여러 트랜잭션이 동시에 같은 쿠폰 정책에 대해 락을 획득하려 할 때
+     * 트랜잭션 타임아웃이 발생할 수 있음
+     *
+     * 4. 정확한 수량 보장의 어려움
+     * 분산 환경에서 여러 서버가 동시에 쿠폰을 발급할 경우
+     * DB 레벨의 락만으로는 정확한 수량 제어가 어려움
+     */
     @Transactional
     public Coupon issueCoupon(CouponDto.IssueRequest request) {
         CouponPolicy couponPolicy = couponPolicyRepository.findByIdWithLock(request.getCouponPolicyId())
