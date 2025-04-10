@@ -8,10 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
-    // UserIdInterceptor 인터셉터(Interceptor) 를 특정 경로에 적용한다.
 
     private final UserIdInterceptor userIdInterceptor;
 
+    // UserIdInterceptor 인터셉터 를 특정 경로에만 적용한다.
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userIdInterceptor)

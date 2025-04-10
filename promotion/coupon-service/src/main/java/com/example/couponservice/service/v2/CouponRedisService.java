@@ -37,8 +37,9 @@ public class CouponRedisService {
         RLock lock = redissonClient.getLock(lockKey);
 
         try {
-            // LOCK_WAIT_TIME 초동안 redisson을 사용해서 락을 건다.
             // 동시성 충돌, 중복 차감, 잘못된 수량 감소 방지를 위해 RLock 을 사용한다.
+            // lock.tryLock(...)은 다른 누군가가 락을 잡고 있으면 최대 LOCK_WAIT_TIME 초 만큼 기다렸다가 락을 얻으려는 시도를 하고
+            // 그 시간 내에 락을 못 얻으면 false가 리턴되고, 락을 얻으면 true가 리턴된다
             boolean isLocked = lock.tryLock(LOCK_WAIT_TIME, LOCK_LEASE_TIME, TimeUnit.SECONDS);
             if (!isLocked) {
                 throw new CouponIssueException("쿠폰 발급 요청이 많아 처리할 수 없습니다. 잠시 후 다시 시도해주세요.");
@@ -71,7 +72,7 @@ public class CouponRedisService {
             Thread.currentThread().interrupt();
             throw new CouponIssueException("쿠폰 발급 중 오류가 발생했습니다.", e);
         } finally {
-            if (lock.isHeldByCurrentThread()) {
+            if (lock.isHeldByCurrentThread()) { // 현재 스레드가 락을 보유하고 있으면 락을 해제한다
                 lock.unlock();
             }
         }
