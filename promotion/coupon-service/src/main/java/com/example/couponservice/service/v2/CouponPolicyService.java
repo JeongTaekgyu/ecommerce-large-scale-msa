@@ -1,7 +1,7 @@
 package com.example.couponservice.service.v2;
 
 import com.example.couponservice.domain.CouponPolicy;
-import com.example.couponservice.dto.v1.CouponPolicyDto;
+import com.example.couponservice.dto.v3.CouponPolicyDto;
 import com.example.couponservice.exception.CouponPolicyNotFoundException;
 import com.example.couponservice.repository.CouponPolicyRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;

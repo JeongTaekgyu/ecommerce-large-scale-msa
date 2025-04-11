@@ -1,4 +1,4 @@
-package com.example.couponservice.controller.v2;
+package com.example.couponservice.controller.v3;
 
 import com.example.couponservice.dto.v3.CouponPolicyDto;
 import com.example.couponservice.service.v2.CouponPolicyService;
@@ -10,16 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController("couponPolicyControllerV2")
-@RequestMapping("/api/v2/coupon-policies")
+@RestController("couponPolicyControllerV3")
+@RequestMapping("/api/v3/coupon-policies")
 @RequiredArgsConstructor
 public class CouponPolicyController {
-
     private final CouponPolicyService couponPolicyService;
 
     @PostMapping
-    public ResponseEntity<CouponPolicyDto.Response> createCouponPolicy(
-            @RequestBody CouponPolicyDto.CreateRequest request) throws JsonProcessingException {
+    public ResponseEntity<CouponPolicyDto.Response> createCouponPolicy(@RequestBody CouponPolicyDto.CreateRequest request) throws JsonProcessingException {
         return ResponseEntity.ok()
                 .body(CouponPolicyDto.Response.from(couponPolicyService.createCouponPolicy(request)));
     }
