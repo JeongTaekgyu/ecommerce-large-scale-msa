@@ -37,6 +37,11 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
 	implementation 'org.redisson:redisson-spring-boot-starter:3.23.5'
 
+	// Micrometer Prometheus Registry
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+	// AOP
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
