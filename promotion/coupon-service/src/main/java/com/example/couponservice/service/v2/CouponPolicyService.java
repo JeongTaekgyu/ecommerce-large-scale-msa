@@ -53,6 +53,7 @@ public class CouponPolicyService {
         String policyKey = COUPON_POLICY_KEY + id;
         RBucket<String> bucket = redissonClient.getBucket(policyKey);
         String policyJson = bucket.get();
+        log.info("~~~ getCouponPolicy 에서 policyKey : " + policyKey);
         if (policyJson != null) {
             try {
                 return objectMapper.readValue(policyJson, CouponPolicy.class);
