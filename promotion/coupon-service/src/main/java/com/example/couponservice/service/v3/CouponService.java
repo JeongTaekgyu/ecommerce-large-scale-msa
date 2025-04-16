@@ -1,5 +1,6 @@
 package com.example.couponservice.service.v3;
 
+import com.example.couponservice.aop.CouponMetered;
 import com.example.couponservice.config.UserIdInterceptor;
 import com.example.couponservice.domain.Coupon;
 import com.example.couponservice.domain.CouponPolicy;
@@ -43,7 +44,7 @@ public class CouponService {
     그러므로 더 안정적인 순차 처리가 가능하다.
     */
     @Transactional(readOnly = true)
-//    @CouponMetered(version = "v3")
+    @CouponMetered(version = "v3")
     public void requestCouponIssue(CouponDto.IssueRequest request) {
         String quantityKey = COUPON_QUANTITY_KEY + request.getCouponPolicyId();
         String lockKey = COUPON_LOCK_KEY + request.getCouponPolicyId();
@@ -55,12 +56,16 @@ public class CouponService {
                 throw new CouponIssueException("쿠폰 발급 요청이 많아 처리할 수 없습니다. 잠시 후 다시 시도해주세요.");
             }
 
+            log.info("~~~ v3 requestCouponIssue getCouponPolicy 직전");
             CouponPolicy couponPolicy = couponPolicyService.getCouponPolicy(request.getCouponPolicyId());
             if (couponPolicy == null) {
                 throw new IllegalArgumentException("쿠폰 정책을 찾을 수 없습니다.");
             }
 
             LocalDateTime now = LocalDateTime.now();
+            log.info("v3~~~ start : " + couponPolicy.getStartTime());
+            log.info("v3~~~ now : " + now);
+            log.info("v3~~~ endtime : " + couponPolicy.getEndTime());
             if (now.isBefore(couponPolicy.getStartTime()) || now.isAfter(couponPolicy.getEndTime())) {
                 throw new IllegalStateException("쿠폰 발급 기간이 아닙니다.");
             }
@@ -95,6 +100,7 @@ public class CouponService {
     @Transactional
     public void issueCoupon(CouponDto.IssueMessage message) {
         try {
+            log.info("~~~ v3 issueCoupon getCouponPolicy 직전");
             CouponPolicy policy = couponPolicyService.getCouponPolicy(message.getPolicyId());
             if (policy == null) {
                 throw new IllegalArgumentException("쿠폰 정책을 찾을 수 없습니다.");

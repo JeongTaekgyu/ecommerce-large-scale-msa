@@ -1,5 +1,6 @@
 package com.example.couponservice.service.v2;
 
+import com.example.couponservice.aop.CouponMetered;
 import com.example.couponservice.config.UserIdInterceptor;
 import com.example.couponservice.domain.Coupon;
 import com.example.couponservice.domain.CouponPolicy;
@@ -31,6 +32,7 @@ public class CouponRedisService {
     private static final long LOCK_LEASE_TIME = 5;
 
     @Transactional
+    @CouponMetered(version = "v2")
     public Coupon issueCoupon(CouponDto.IssueRequest request) {
         String quantityKey = COUPON_QUANTITY_KEY + request.getCouponPolicyId();
         String lockKey = COUPON_LOCK_KEY + request.getCouponPolicyId();
@@ -45,10 +47,14 @@ public class CouponRedisService {
                 throw new CouponIssueException("쿠폰 발급 요청이 많아 처리할 수 없습니다. 잠시 후 다시 시도해주세요.");
             }
 
-            // redis에서 쿠폰 정책을 가져온다.
+            // redis에서 쿠폰 정책을 가져온다. 없으면 db에서 가져온다.
+            log.info("~~~ v2 issueCoupon getCouponPolicy 직전");
             CouponPolicy couponPolicy = couponPolicyService.getCouponPolicy(request.getCouponPolicyId());
 
             LocalDateTime now = LocalDateTime.now();
+            log.info("v2~~~ start : " + couponPolicy.getStartTime());
+            log.info("v2~~~ now : " + now);
+            log.info("v2~~~ endtime : " + couponPolicy.getEndTime());
             if (now.isBefore(couponPolicy.getStartTime()) || now.isAfter(couponPolicy.getEndTime())) {
                 throw new IllegalStateException("쿠폰 발급 기간이 아닙니다.");
             }
