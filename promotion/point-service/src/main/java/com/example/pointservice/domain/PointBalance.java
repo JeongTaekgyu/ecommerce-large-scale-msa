@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @Table(name = "point_balances")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
-public class PointBalance {
+@EntityListeners(AuditingEntityListener.class) // AuditingEntityListener를 사용해 엔티티의 생성 및 수정 시간을 자동으로 관리
+public class PointBalance { // 적립금 잔액 엔터티
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class PointBalance {
     private Long userId;
 
     @Column(nullable = false)
-    private Long balance = 0L;  // 기본값 설정
+    private Long balance = 0L;  // 기본값 설정 // 적립금 잔액
 
     @Version
     private Long version = 0L;  // 기본값 설정 // Optimistic Lock을 위한 버전 관리

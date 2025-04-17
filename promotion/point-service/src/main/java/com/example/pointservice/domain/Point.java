@@ -25,7 +25,7 @@ public class Point { // 적립금 내역 엔터티
     private Long userId;
 
     @Column(nullable = false)
-    private Long amount;
+    private Long amount; // 적립/차감 금액
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
