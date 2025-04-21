@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:pointdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:org/springframework/batch/core/schema-h2.sql, classpath:schema.sql
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  batch:
+    job:
+      enabled: false  # \uAE30\uBCF8 job \uC2E4\uD589 \uBE44\uD65C\uC131\uD654
+    jdbc:
+      initialize-schema: never
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+logging:
+  level:
+    org.springframework.batch: DEBUG
+    com.fastcampus.pointservicebatch: DEBUG
