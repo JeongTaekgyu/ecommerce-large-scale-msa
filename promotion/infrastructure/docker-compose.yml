@@ -68,6 +68,23 @@ services:
     networks:
       - promotion_network
 
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    privileged: true
+    user: root
+    ports:
+      - "8888:8080"  # 호스트의 8888 포트를 컨테이너의 8080 포트에 매핑
+      - "50000:50000"
+    volumes: # Jenkins가 사용하는 데이터를 저장할 디렉토리(volumes)를 원하는 경로에 연결(마운트) 한다.
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../point-service-batch:/var/jenkins_home/workspace/point-service-batch
+    environment:
+      - TZ=Asia/Seoul
+    networks:
+      - promotion_network
+
   grafana:
     image: grafana/grafana:10.0.3
     container_name: grafana
