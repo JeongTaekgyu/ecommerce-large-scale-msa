@@ -34,6 +34,7 @@ public class CouponRedisService {
     @Transactional
     @CouponMetered(version = "v2")
     public Coupon issueCoupon(CouponDto.IssueRequest request) {
+        // 테이블에 락을 건게 아니라 메서드에 락을 건다.
         String quantityKey = COUPON_QUANTITY_KEY + request.getCouponPolicyId();
         String lockKey = COUPON_LOCK_KEY + request.getCouponPolicyId();
         RLock lock = redissonClient.getLock(lockKey);

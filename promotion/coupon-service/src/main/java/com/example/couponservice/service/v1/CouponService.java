@@ -71,6 +71,8 @@ public class CouponService {
                 .build();
 
         return couponRepository.save(coupon);
+        // countByCouponPolicyId 에 락을 거는건 의미가 없고 coupon 자체가 save할 때까지 락이 걸리는게 중요하다
+        // 물론 v1 에서는 findByIdWithLock을 제외하고는 락을 걸지 않는다.
     }
 
     private String generateCouponCode() {

@@ -36,7 +36,7 @@ public class CouponPolicy {
     private Integer maximumDiscountAmount;
 
     @Column(nullable = false)
-    private Integer totalQuantity;
+    private Integer totalQuantity; // 이 쿠폰 정책으로 발급할 수 있는 총 쿠폰 수량
 
     @Column(nullable = false)
     private LocalDateTime startTime;
