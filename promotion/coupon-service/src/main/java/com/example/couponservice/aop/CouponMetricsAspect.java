@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CouponMetricsAspect {
+    // MeterRegistry 는 Spring Boot Actuator + Micrometer + Prometheus 조합이 자동으로 제공하는 메트릭 수집 도구이다.
     private final MeterRegistry registry;
 
     // @CouponMetered 어노테이션이 붙은 메서드를 가로채서 실행 전후에 작업을 수행한다.
@@ -25,7 +26,7 @@ public class CouponMetricsAspect {
         String operation = extractOperation(joinPoint);
 
         try {
-            Object result = joinPoint.proceed();
+            Object result = joinPoint.proceed(); // 이 줄에서 실제로 @CouponMetered 가 붙은 메서드가 실행된다.
 
             // 쿠폰 발급 성공 메트릭
             // 성공 메트릭 카운터를 1 증가시킨다
@@ -54,6 +55,8 @@ public class CouponMetricsAspect {
         }
     }
 
+    // 현재 실행 중인 메서드에서 @CouponMetered 어노테이션을 가져와서
+    // 해당 어노테이션의 version 값을 반환한다.
     private String extractVersion(ProceedingJoinPoint joinPoint) {
         CouponMetered annotation = ((MethodSignature) joinPoint.getSignature())
                 .getMethod()
@@ -61,6 +64,7 @@ public class CouponMetricsAspect {
         return annotation.version();
     }
 
+    // 현재 실행 중인 메서드의 이름(예: issueCoupon 등)을 문자열로 반환한다.
     private String extractOperation(ProceedingJoinPoint joinPoint) {
         return joinPoint.getSignature().getName();
     }
