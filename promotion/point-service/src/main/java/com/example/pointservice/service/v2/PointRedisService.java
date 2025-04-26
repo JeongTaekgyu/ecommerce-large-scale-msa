@@ -1,5 +1,6 @@
 package com.example.pointservice.service.v2;
 
+import com.example.pointservice.aop.PointMetered;
 import com.example.pointservice.domain.Point;
 import com.example.pointservice.domain.PointBalance;
 import com.example.pointservice.domain.PointType;
@@ -41,7 +42,7 @@ public class PointRedisService {
      * 5. 포인트 이력 저장
      */
     @Transactional
-//    @PointMetered(version = "v2")
+    @PointMetered(version = "v2")
     public Point earnPoints(Long userId, Long amount, String description) {
         // 분산 락 획득 - // 분산 락을 획득하기 위한 준비 작업
         RLock lock = redissonClient.getLock(POINT_LOCK_PREFIX + userId);
@@ -108,7 +109,7 @@ public class PointRedisService {
      * 6. 포인트 이력 저장
      */
     @Transactional
-//    @PointMetered(version = "v2")
+    @PointMetered(version = "v2")
     public Point usePoints(Long userId, Long amount, String description) {
         // 분산 락 획득 - // 분산 락을 획득하기 위한 준비 작업
         RLock lock = redissonClient.getLock(POINT_LOCK_PREFIX + userId);

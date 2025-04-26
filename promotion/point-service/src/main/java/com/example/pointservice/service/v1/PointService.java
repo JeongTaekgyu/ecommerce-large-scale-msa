@@ -1,5 +1,6 @@
 package com.example.pointservice.service.v1;
 
+import com.example.pointservice.aop.PointMetered;
 import com.example.pointservice.domain.Point;
 import com.example.pointservice.domain.PointBalance;
 import com.example.pointservice.domain.PointType;
@@ -19,6 +20,7 @@ public class PointService {
     private final PointRepository pointRepository;
 
     @Transactional(isolation = Isolation.REPEATABLE_READ) //
+    @PointMetered(version = "v1")
     public Point earnPoints(Long userId, Long amount, String description) {
         PointBalance pointBalance = pointBalanceRepository.findByUserId(userId)
                 .orElseGet(() -> PointBalance.builder()
@@ -41,6 +43,7 @@ public class PointService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @PointMetered(version = "v1")
     public Point usePoints(Long userId, Long amount, String description) {
         PointBalance pointBalance = pointBalanceRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
