@@ -62,6 +62,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.listen-address=:9091'
     ports:
       - "9091:9091"
     restart: always
