@@ -56,4 +56,8 @@ public class TimeSaleOrder {
         this.discountPrice = discountPrice;
         this.status = OrderStatus.PENDING;
     }
+
+    public void complete() {
+        this.status = OrderStatus.COMPLETED;
+    }
 }

@@ -66,4 +66,35 @@ public class TimeSale {
         this.status = status;
         this.version = 0L;
     }
+
+    public void purchase(Long quantity) {
+        validatePurchase(quantity);
+        this.remainingQuantity -= quantity;
+    }
+
+    private void validatePurchase(Long quantity) {
+        validateStatus();
+        validateQuantity(quantity);
+        validatePeriod();
+    }
+
+    private void validateStatus() {
+        if (status != TimeSaleStatus.ACTIVE) {
+            throw new IllegalStateException("Time sale is not active");
+        }
+    }
+
+    private void validateQuantity(Long quantity) {
+        if (remainingQuantity < quantity) {
+            throw new IllegalStateException("Not enough quantity available");
+        }
+    }
+
+    private void validatePeriod() {
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isBefore(startAt) || now.isAfter(endAt)) {
+            throw new IllegalStateException("Time sale is not in valid period");
+        }
+    }
+
 }
