@@ -85,6 +85,7 @@ public class TimeSale {
     }
 
     private void validateQuantity(Long quantity) {
+        // 해당 quantity 전체수량이 아니라 PurchaseRequest에서 요청한 수량이다.
         if (remainingQuantity < quantity) {
             throw new IllegalStateException("Not enough quantity available");
         }

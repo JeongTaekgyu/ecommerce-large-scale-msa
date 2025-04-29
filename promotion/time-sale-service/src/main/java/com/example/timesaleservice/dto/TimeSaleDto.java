@@ -23,7 +23,7 @@ public class TimeSaleDto {
         private Long discountPrice; // 할인 가격
 
         @NotNull(message = "Start time is required")
-        @FutureOrPresent(message = "Start time must be current time or in the future") // : 현재 시각이거나 미래여야 한다
+        @FutureOrPresent(message = "Start time must be current time or in the future") // 현재 시각이거나 미래여야 한다
         private LocalDateTime startAt;
 
         @NotNull(message = "End time is required")
@@ -39,7 +39,7 @@ public class TimeSaleDto {
 
         @NotNull(message = "quantity must not be null")
         @Min(value = 1, message = "quantity must be greater than 0")
-        private Long quantity;
+        private Long quantity; // 구매하려는 수량
     }
 
     @Getter

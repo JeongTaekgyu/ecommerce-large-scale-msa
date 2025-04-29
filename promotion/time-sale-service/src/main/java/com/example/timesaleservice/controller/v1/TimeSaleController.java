@@ -1,4 +1,4 @@
-package com.example.timesaleservice.controller;
+package com.example.timesaleservice.controller.v1;
 
 import com.example.timesaleservice.domain.TimeSale;
 import com.example.timesaleservice.dto.TimeSaleDto;
@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/timesales")
+@RequestMapping("/api/v1/time-sales")
 @RequiredArgsConstructor
 public class TimeSaleController {
     private final TimeSaleService timeSaleService;
