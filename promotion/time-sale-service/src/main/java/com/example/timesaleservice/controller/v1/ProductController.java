@@ -1,4 +1,4 @@
-package com.example.timesaleservice.controller;
+package com.example.timesaleservice.controller.v1;
 
 import com.example.timesaleservice.domain.Product;
 import com.example.timesaleservice.dto.ProductDto;
