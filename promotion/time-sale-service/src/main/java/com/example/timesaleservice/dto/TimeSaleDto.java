@@ -2,8 +2,7 @@ package com.example.timesaleservice.dto;
 
 import com.example.timesaleservice.domain.TimeSale;
 import jakarta.validation.constraints.*;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -91,5 +90,16 @@ public class TimeSaleDto {
                     .purchasedAt(LocalDateTime.now())
                     .build();
         }
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AsyncPurchaseResponse {
+        private String requestId;
+        private String status;
+        private Integer queuePosition;
+        private Long totalWaiting;
     }
 }
