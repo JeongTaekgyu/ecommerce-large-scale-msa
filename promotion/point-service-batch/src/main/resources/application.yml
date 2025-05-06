@@ -5,6 +5,11 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
+  h2:
+    console:
+      enabled: true       # 콘솔 활성화
+      path: /h2-console   # 접속 경로 설정
+
   sql:
     init:
       mode: always
@@ -12,7 +17,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update # none 이었음
     show-sql: true
     properties:
       hibernate:
@@ -20,7 +25,7 @@ spring:
 
   batch:
     job:
-      enabled: false  # \uAE30\uBCF8 job \uC2E4\uD589 \uBE44\uD65C\uC131\uD654
+      enabled: false  # 기본 job 실행 비활성화
     jdbc:
       initialize-schema: never
 
@@ -32,4 +37,4 @@ spring:
 logging:
   level:
     org.springframework.batch: DEBUG
-    com.fastcampus.pointservicebatch: DEBUG
+    com.example.pointservicebatch: DEBUG
