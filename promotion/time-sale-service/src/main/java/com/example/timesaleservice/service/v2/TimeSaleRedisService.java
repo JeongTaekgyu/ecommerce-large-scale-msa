@@ -1,5 +1,6 @@
 package com.example.timesaleservice.service.v2;
 
+import com.example.timesaleservice.aop.TimeSaleMetered;
 import com.example.timesaleservice.domain.Product;
 import com.example.timesaleservice.domain.TimeSale;
 import com.example.timesaleservice.domain.TimeSaleOrder;
@@ -72,6 +73,7 @@ public class TimeSaleRedisService {
     }
 
     @Transactional
+    @TimeSaleMetered(version = "v2")
     public TimeSale purchaseTimeSale(Long timeSaleId, TimeSaleDto.PurchaseRequest request) {
         // 분산 락 획득 - // 분산 락을 획득하기 위한 준비 작업
         RLock lock = redissonClient.getLock(TIME_SALE_LOCK + timeSaleId);

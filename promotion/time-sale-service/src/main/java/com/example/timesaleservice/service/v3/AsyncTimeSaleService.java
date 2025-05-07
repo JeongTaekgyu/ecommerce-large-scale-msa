@@ -1,5 +1,6 @@
 package com.example.timesaleservice.service.v3;
 
+import com.example.timesaleservice.aop.TimeSaleMetered;
 import com.example.timesaleservice.domain.TimeSale;
 import com.example.timesaleservice.dto.TimeSaleDto;
 import com.example.timesaleservice.service.v2.TimeSaleRedisService;
@@ -35,6 +36,7 @@ public class AsyncTimeSaleService {
         return timeSaleProducer.sendPurchaseRequest(timeSaleId, request.getUserId(), request.getQuantity());
     }
 
+    @TimeSaleMetered(version = "v3")
     public TimeSaleDto.AsyncPurchaseResponse getPurchaseResult(Long timeSaleId, String requestId) {
         RBucket<String> resultBucket = redissonClient.getBucket(RESULT_PREFIX + requestId);
         String result = resultBucket.get();

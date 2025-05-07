@@ -1,5 +1,6 @@
 package com.example.timesaleservice.service.v1;
 
+import com.example.timesaleservice.aop.TimeSaleMetered;
 import com.example.timesaleservice.domain.Product;
 import com.example.timesaleservice.domain.TimeSale;
 import com.example.timesaleservice.domain.TimeSaleOrder;
@@ -58,7 +59,8 @@ public class TimeSaleService {
         return timeSaleRepository.findAllByStartAtBeforeAndEndAtAfterAndStatus(now, TimeSaleStatus.ACTIVE, pageable);
     }
 
-    @Transactional
+    @Transactional // 분산 시스템에서는 해당 시스템에 빈틈이 있을 수 있음
+    @TimeSaleMetered(version = "v1")
     public TimeSale purchaseTimeSale(Long timeSaleId, TimeSaleDto.PurchaseRequest request) {
         TimeSale timeSale = timeSaleRepository.findByIdWithPessimisticLock(timeSaleId)
                 .orElseThrow(() -> new IllegalArgumentException("TimeSale not found"));

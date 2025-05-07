@@ -2,7 +2,7 @@ spring:
   application:
     name: time-sale-service
   main:
-    allow-bean-definition-overriding: true
+    allow-bean-definition-overriding: true # 동일한 이름의 Bean이 여러 번 정의될 경우 기존 Bean을 새로운 Bean으로 덮어쓰도록 허용하는 설정
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -38,3 +38,21 @@ eureka:
       defaultZone: http://localhost:8761/eureka/ # 해당 eureka 서버와 통신
   instance:
     prefer-ip-address: true
+
+# 모니터링 지표 수집용 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus # 외부에 공개할 모니터링 엔드포인트 목록
+  metrics:
+    tags:
+      application: time-sale-service
+    enable:
+      redis: true
+      kafka: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      slo:
+        http.server.requests: 50ms, 100ms, 200ms
