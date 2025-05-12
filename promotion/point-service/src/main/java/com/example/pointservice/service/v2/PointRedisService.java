@@ -26,8 +26,8 @@ public class PointRedisService {
     // Redis key prefix 및 설정값
     private static final String POINT_BALANCE_MAP = "point:balance"; // 포인트 잔액을 저장하기 위한 키 값
     private static final String POINT_LOCK_PREFIX = "point:lock:";
-    private static final long LOCK_WAIT_TIME = 3L;
-    private static final long LOCK_LEASE_TIME = 3L;
+    private static final long LOCK_WAIT_TIME = 3L; // 락을 획득하는데 대기하는 시간(락 대기 시간)
+    private static final long LOCK_LEASE_TIME = 3L; // 락을 획득하고 유지하는 시간(락 임대 시간)
 
     private final PointBalanceRepository pointBalanceRepository;
     private final PointRepository pointRepository;

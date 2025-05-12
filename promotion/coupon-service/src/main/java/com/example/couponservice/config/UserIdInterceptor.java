@@ -11,9 +11,16 @@ public class UserIdInterceptor implements HandlerInterceptor {
     private static final ThreadLocal<Long> currentUserId = new ThreadLocal<>(); //
     // 참고로 api-gateway로 부터 x-user-Id를 받는다.
 
+    // 클라이언트 → 인터셉터 실행 (preHandle) → 컨트롤러 실행
+    //
+    // 컨트롤러 실행 후 → 인터셉터 실행 (postHandle)
+    //
+    // 응답이 만들어진 후 → 인터셉터 실행 (afterCompletion) → 클라이언트
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String userIdStr = request.getHeader(USER_ID_HEADER);
+        //System.out.println("X-USER-ID: [" + userIdStr + "]");
         if (userIdStr == null || userIdStr.isEmpty()) {
             throw new IllegalStateException("X-USER-ID header is required");
         }

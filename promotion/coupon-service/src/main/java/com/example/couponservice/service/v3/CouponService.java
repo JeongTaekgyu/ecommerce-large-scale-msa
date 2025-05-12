@@ -79,7 +79,7 @@ public class CouponService {
                 throw new CouponIssueException("쿠폰이 모두 소진되었습니다.");
             }
 
-            // Kafka로 쿠폰 발급 요청 전송
+            // Kafka로 쿠폰 발급 요청 전송 - 비동기 이기 때문에 결과를 기다리지 않고 다음 로직으로 넘어간다. 그래서 finally에서 락을 해제한다.
             couponProducer.sendCouponIssueRequest(
                     CouponDto.IssueMessage.builder()
                             .policyId(request.getCouponPolicyId())
