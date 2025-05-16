@@ -18,8 +18,8 @@ public class UserLoginHistory {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-//    @Column(name = "login_time", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    @Column(name = "login_time")
+    @Column(name = "login_time", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+//    @Column(name = "login_time")
     private LocalDateTime loginTime;
 
     @Column(name = "ip_address", length = 45)

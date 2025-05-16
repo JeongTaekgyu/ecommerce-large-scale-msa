@@ -2,38 +2,38 @@ spring:
   application:
     name: user-service
 
-#  datasource:
-#    url: jdbc:h2:mem:userdb:DB_CLOSE_DELAY=-1
-#    driverClassName : org.h2.Driver
-#    username: sa
-#    password:
-#
-#  jpa:
-#    defer-datasource-initialization: true
-#    database-platform: org.hibernate.dialect.H2Dialect
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: update
-#    properties:
-#      hibernate:
-#        format_sql: true
-#        use_sql_comments: true
   datasource:
-    url: jdbc:postgresql://localhost:6434/postgres
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:userdb:DB_CLOSE_DELAY=-1
+    driverClassName : org.h2.Driver
+    username: sa
+    password:
 
   jpa:
     defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
     hibernate:
       ddl-auto: update
-    show-sql: true
     properties:
       hibernate:
         format_sql: true
         use_sql_comments: true
+#  datasource:
+#    url: jdbc:postgresql://localhost:6434/postgres
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+#
+#  jpa:
+#    defer-datasource-initialization: true
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        use_sql_comments: true
 
 eureka:
   client:

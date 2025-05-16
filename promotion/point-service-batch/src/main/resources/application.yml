@@ -1,43 +1,43 @@
 spring:
-#  datasource:
-#    url: jdbc:h2:mem:pointdb
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
-#
-#  h2:
-#    console:
-#      enabled: true       # 콘솔 활성화
-#      path: /h2-console   # 접속 경로 설정
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: update # none 이었음
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-
   datasource:
-    url: jdbc:postgresql://localhost:6436/postgres
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:pointdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true       # 콘솔 활성화
+      path: /h2-console   # 접속 경로 설정
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update # none 이었음
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
+#  datasource:
+#    url: jdbc:postgresql://localhost:6436/postgres
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+#
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    hibernate:
+#      ddl-auto: none
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+
   sql:
     init:
       mode: never
-      schema-locations: classpath:org/springframework/batch/core/schema-postgresql.sql, classpath:schema.sql
-#      schema-locations: classpath:org/springframework/batch/core/schema-h2.sql, classpath:schema.sql
+#      schema-locations: classpath:org/springframework/batch/core/schema-postgresql.sql, classpath:schema.sql
+      schema-locations: classpath:org/springframework/batch/core/schema-h2.sql, classpath:schema.sql
 
   batch:
     job:
