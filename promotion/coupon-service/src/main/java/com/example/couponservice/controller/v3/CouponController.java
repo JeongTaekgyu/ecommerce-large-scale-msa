@@ -21,9 +21,10 @@ public class CouponController {
     @PostMapping("/{couponId}/use")
     public ResponseEntity<CouponDto.CouponResponse> useCoupon(
             @PathVariable Long couponId,
-            @RequestParam Long orderId
+//            @RequestParam Long orderId
+            @RequestBody com.example.couponservice.dto.v1.CouponDto.UseRequest request
     ) {
-        CouponDto.CouponResponse response = CouponDto.CouponResponse.from(couponService.useCoupon(couponId, orderId));
+        CouponDto.CouponResponse response = CouponDto.CouponResponse.from(couponService.useCoupon(couponId, request.getOrderId()));
         return ResponseEntity.ok(response);
     }
 
