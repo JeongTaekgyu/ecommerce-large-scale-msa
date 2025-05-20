@@ -8,6 +8,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableBatchProcessing
 @EnableTransactionManagement
 public class BatchConfig {
-    // Spring Batch의 기본 설정을 활성화함
-    // ex) JobRepository 같은 빈들이 자동으로 주입 가능해짐.
+    // @EnableBatchProcessing 어노테이션은 Spring Batch 기능을 활성화하는 어노테이션이다.
+    // JobRepository, JobLauncher, JobRegistry 등과 같은 Spring Batch의 핵심 컴포넌트들을 자동으로 설정해준다.
 }

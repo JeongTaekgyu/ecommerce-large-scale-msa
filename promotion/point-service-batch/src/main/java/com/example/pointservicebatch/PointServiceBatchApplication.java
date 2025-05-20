@@ -27,10 +27,10 @@ public class PointServiceBatchApplication {
     public ApplicationRunner runner() {
         return args -> {
             jobLauncher.run(
-                    pointBalanceSyncJob, // Spring Batch Job 객체로, @Bean으로 등록된 pointBalanceSyncJob이 자동 주입된 것.
-                    new JobParametersBuilder()
-                            .addLong("timestamp", System.currentTimeMillis()) // JobParameters 예시
-                            .toJobParameters()
+                    pointBalanceSyncJob, // 실행할 Spring Batch Job 객체로, @Bean으로 등록된 pointBalanceSyncJob이 자동 주입된 것.
+                    new JobParametersBuilder() // JobParametersBuilder 객체를 생성하는 메서드.
+                            .addLong("timestamp", System.currentTimeMillis()) // 파라미터 추가
+                            .toJobParameters() // 최종적으로 JobParameters 객체를 생성하는 메서드.
             );
         };
     }

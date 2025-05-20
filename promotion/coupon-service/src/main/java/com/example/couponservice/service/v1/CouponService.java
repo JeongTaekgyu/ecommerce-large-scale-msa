@@ -48,6 +48,7 @@ public class CouponService {
     @Transactional
     @CouponMetered(version = "v1")
     public Coupon issueCoupon(CouponDto.IssueRequest request) {
+        // PESSIMISTIC_LOCK 으로 인한 병목 현상 발생 가능
         CouponPolicy couponPolicy = couponPolicyRepository.findByIdWithLock(request.getCouponPolicyId())
                 .orElseThrow(() -> new CouponIssueException("쿠폰 정책을 찾을 수 없습니다."));
 
